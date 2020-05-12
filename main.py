@@ -1,13 +1,10 @@
-from client import Client
-from operator import Operator
-
+from server import Server
+from op import Operator
 
 def main():
     operatorA = Operator('A')
     operatorB = Operator('B')
-    client1 = Client(1)
-    client2 = Client(2)
-
+    Server().cmdloop()
 
 
 if __name__ == '__main__':
