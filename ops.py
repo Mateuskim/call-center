@@ -20,6 +20,13 @@ class Operators(object):
         # All operators are busy
         return None
 
+    def lookOpAnwers(self, op_id):
+        for op in self.operators:
+
+            #The telephone is calling
+            if op.status == 'Available' and op.curCall is not None:
+                return op
+
     def printa(self):
         for op in self.operators:
             print(op)
@@ -28,4 +35,4 @@ class Operators(object):
     def setCall(self, op_id, call):
         for op in self.operators:
             if op.ID == op_id:
-                op.set_Call(call)
+                op.setCall(call)
