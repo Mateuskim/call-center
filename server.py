@@ -41,7 +41,9 @@ class Server(cmd.Cmd):
             #If is going to queue
             if go_queue:
                 print("Call " + call_id + " waiting in queue")
+                call.setStatus("waiting")
                 self.call_queue.enqueue(call)
+
 
         else:
             print('Must specify a call id ( Call <call_id>)')
