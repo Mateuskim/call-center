@@ -69,7 +69,13 @@ class Server(cmd.Cmd):
 
 
     def do_reject(self, op_id):
-        print('Call 1 rejected by operator ', op_id)
+        call = self.searchOperator("reject", op_id)
+
+        # If operator <op_id> has a call ringing
+        if call is not None:
+            print("Call " + call.ID + " rejected by operator " + op_id)
+
+
 
 
 
@@ -113,8 +119,15 @@ class Server(cmd.Cmd):
         if command == 'call':
             return self.operators.lookOpAvailable()
 
-        #For answer command the operator needs to be available and with a
+        #For answer command the operator needs to be busy and with a
         #call ringing
         elif command == 'answer':
             return self.operators.lookOpAnswer(op_id)
+
+        # For reject command the operator needs to be busy and with a
+        # call ringing
+        elif command == 'reject':
+            return self.operators.lookOpReject(op_id)
+
+
 
