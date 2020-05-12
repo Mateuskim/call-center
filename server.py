@@ -35,11 +35,13 @@ class Server(cmd.Cmd):
                 if op is not None:
 
                     #Allocate call to operator
+                    print("Call " + call_id + " ringing for operator " + op.ID)
                     self.operators.setCall(op.ID, call)
                     go_queue = False
 
             #If is going to queue
             if go_queue:
+                print("Call " + call_id + " waiting in queue")
                 call.setStatus("waiting")
                 self.call_queue.enqueue(call)
 
