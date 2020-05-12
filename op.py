@@ -5,14 +5,14 @@ class Operator():
         self.curCall = None
         self.status = status
 
-    def set_Call(self, call_id):
+    def setCall(self, call_id):
         self.curCall = call_id
 
-    def set_Status(self, status):
+    def setStatus(self, status):
         self.status = status
 
-    def get_ID(self):
+    def getID(self):
         return self.ID
 
-    def get_Status(self):
+    def getStatus(self):
         return self.status
