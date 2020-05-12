@@ -29,7 +29,9 @@ class Operators(object):
     def lookOpReject(self,op_id):
         for op in self.operators:
             if op.rejectCall(op_id):
-                return op.curCall
+                cur_call = op.curCall
+                op.curCall = None
+                return cur_call
         return None
 
     def printa(self):
