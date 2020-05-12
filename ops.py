@@ -26,6 +26,7 @@ class Operators(object):
             #The telephone is calling
             if op.status == 'Available' and op.curCall is not None:
                 return op
+        return None
 
     def printa(self):
         for op in self.operators:
