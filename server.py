@@ -36,7 +36,7 @@ class Server(cmd.Cmd):
             if self.call_queue.isEmpty():
 
                 #Look for operator available
-                op = self.searchOperator("call")
+                op = self.searchOperator("available")
                 if op is not None:
 
                     #Allocate call to operator
@@ -71,12 +71,18 @@ class Server(cmd.Cmd):
     def do_reject(self, op_id):
         call = self.searchOperator("reject", op_id)
 
+
         # If operator <op_id> has a call ringing
         if call is not None:
             print("Call " + call.ID + " rejected by operator " + op_id)
 
-
-
+            #While don't find a new operator or don't happen hangup command
+            while call.getStatus() != 'ringing' and call.getStatus() != 'ended':
+                op = self.searchOperator("available")
+                if op is not None:
+                    # Allocate call to operator
+                    print("Call " + call.ID + " ringing for operator " + op.ID)
+                    self.operators.setCall(op.ID, call)
 
 
     def do_hangup(self, call_id):
@@ -116,7 +122,7 @@ class Server(cmd.Cmd):
 
         # For call command the operator needs to be available without a
         # call ringing
-        if command == 'call':
+        if command == 'available':
             return self.operators.lookOpAvailable()
 
         #For answer command the operator needs to be busy and with a
