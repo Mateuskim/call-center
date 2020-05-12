@@ -35,3 +35,9 @@ class Operators(object):
         for op in self.operators:
             if op.ID == op_id:
                 op.setCall(call)
+                call.setOp(op)
+
+    def finishCall(self, call):
+        op = call.getOp()
+        op.curCall = None
+        op.setStatus('available')
