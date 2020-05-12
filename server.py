@@ -64,6 +64,8 @@ class Server(cmd.Cmd):
     def do_reject(self, op_id):
         print('Call 1 rejected by operator ', op_id)
 
+
+
     def do_hangup(self, call_id):
         print("Call "+ call_id+ " missed")
 
