@@ -59,15 +59,13 @@ class Server(cmd.Cmd):
             call = op.curCall
             call.setStatus("answered")
             op.setStatus("busy")
-        print('Call '+call.ID+' answered by operator '+ op_id)
+            print('Call '+call.ID+' answered by operator '+ op_id)
 
     def do_reject(self, op_id):
         print('Call 1 rejected by operator ', op_id)
 
     def do_hangup(self, call_id):
         print("Call "+ call_id+ " missed")
-
-
 
     def searchOperator(self, command, op_id = None):
 
