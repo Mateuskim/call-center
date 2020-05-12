@@ -19,13 +19,13 @@ class Operator():
 
     def answerCall(self, op_id):
         if self.ID == op_id:
-            if self.status == 'Available' and self.curCall is not None:
-                self.status = 'Busy'
-                self.curCall = 'Answered'
+            if self.status == 'available' and self.curCall is not None:
+                self.status = 'busy'
+                self.curCall.setStatus('answered')
                 return self.curCall
         return None
 
     def isAvailable(self):
-        if self.status == 'Available' and self.curCall is None:
+        if self.status == 'available' and self.curCall is None:
             return True
         return False
