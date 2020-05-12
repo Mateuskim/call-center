@@ -1,4 +1,4 @@
-class Operator():
+class Operator(object):
 
     def __init__(self, ID, status = 'available'):
         self.ID = ID
@@ -6,7 +6,10 @@ class Operator():
         self.status = status
 
     def setCall(self, call_id):
+        self.status = 'busy'
         self.curCall = call_id
+        self.curCall.setStatus('ringing')
+
 
     def setStatus(self, status):
         self.status = status
@@ -19,13 +22,12 @@ class Operator():
 
     def answerCall(self, op_id):
         if self.ID == op_id:
-            if self.status == 'available' and self.curCall is not None:
-                self.status = 'busy'
+            if self.status == 'busy' and self.curCall.getStatus() == 'ringing':
                 self.curCall.setStatus('answered')
                 return True
         return False
 
     def isAvailable(self):
-        if self.status == 'available' and self.curCall is None:
+        if self.status == 'available':
             return True
         return False
