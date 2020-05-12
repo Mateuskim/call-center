@@ -40,7 +40,6 @@ class Server(cmd.Cmd):
 
             #If is going to queue
             if go_queue:
-                print("Call " + call_id + " waiting in queue")
                 call.setStatus("waiting")
                 self.call_queue.enqueue(call)
 
@@ -79,3 +78,4 @@ class Server(cmd.Cmd):
         #call ringing
         elif command == 'answer':
             return self.operators.opAnswer(op_id)
+
