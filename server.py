@@ -1,5 +1,6 @@
 import cmd
 from call import Call
+from calls import Calls
 from ops import Operators
 from queue import Queue
 
@@ -10,6 +11,7 @@ class Server(cmd.Cmd):
         self.prompt = '(Application)'
         self.operators = Operators()
         self.call_queue = Queue()
+        self.online_calls_list = Calls()
 
         #Criando operadores
         self.operators.addOp('A')
@@ -24,6 +26,9 @@ class Server(cmd.Cmd):
 
             call = Call(call_id)
             print("Call " + call_id + " received")
+
+            #Adding call to the list of calls which are happening
+            self.online_calls_list.addCall(call)
 
             #Flag to see if call is going to queue or not
             go_queue = True
@@ -69,10 +74,47 @@ class Server(cmd.Cmd):
 
 
     def do_hangup(self, call_id):
-        #Verify if it is answered
+        #Search for the call
+        call = self.online_calls_list.searchCall(call_id)
+        if call is not None:
+
+            #If call is in queue
+            if call.getStatus() == 'waiting':
+
+                #Set call status to ended and delete from the list of online calls
+                call.setStatus('ended')
+                self.online_calls_list.endCall(call)
+                print("Call " + call_id + " missed")
+
+            elif call.getStatus() == 'answered':
+                call.setStatus('ended')
+
+                #unlink operator and call and delete from online calls
+                self.operators.finishCall(call)
+                self.online_calls_list.endCall(call)
+                op = call.getOp()
 
 
-        print("Call "+ call_id+ " missed")
+
+
+                if not self.call_queue.isEmpty():
+                    #Allocate a call in the queue to operator
+                    new_call = self.call_queue.dequeue()
+                    self.operators.setCall(op.ID, new_call)
+                    print("Call " + call.ID + " finished and operator " + op.ID + " available")
+                    print("Call " + new_call.ID + " ringing for operator " + op.ID)
+                else:
+                    print("Call " + call.ID + " finished and operator " + op.ID + " available")
+
+
+                # print('Call ' + call.ID + "finished and operator " + op)
+        #
+        #
+        # if call is not None:
+        #     call.setStatus('ended')
+        #
+        # self.online_calls_list.printaCalls()
+        # print("Call "+ call_id+ " missed")
 
     def searchOperator(self, command, op_id = None):
 
