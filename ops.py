@@ -26,6 +26,12 @@ class Operators(object):
                 return op.curCall
         return None
 
+    def lookOpReject(self,op_id):
+        for op in self.operators:
+            if op.rejectCall(op_id):
+                return op.curCall
+        return None
+
     def printa(self):
         for op in self.operators:
             print(op)
