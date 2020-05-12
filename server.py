@@ -54,8 +54,13 @@ class Server(cmd.Cmd):
     # ------------------- Operator commands --------------------
 
     def do_answer(self, op_id):
+
         #Search for operator and answer his curCall
-        op = self.searchOperator("answer", op_id)
+        call = self.searchOperator("answer", op_id)
+
+        # If operator <op_id> has a call ringing
+        if call is not None:
+            print("Call " + call.ID + " answered by operator " + op_id)
 
 
     def do_reject(self, op_id):
@@ -79,5 +84,5 @@ class Server(cmd.Cmd):
         #For answer command the operator needs to be available and with a
         #call ringing
         elif command == 'answer':
-            return self.operators.opAnswer(op_id)
+            return self.operators.lookOpAnswer(op_id)
 

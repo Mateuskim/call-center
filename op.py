@@ -1,6 +1,6 @@
 class Operator():
 
-    def __init__(self, ID, status = 'Available'):
+    def __init__(self, ID, status = 'available'):
         self.ID = ID
         self.curCall = None
         self.status = status
@@ -22,8 +22,8 @@ class Operator():
             if self.status == 'available' and self.curCall is not None:
                 self.status = 'busy'
                 self.curCall.setStatus('answered')
-                return self.curCall
-        return None
+                return True
+        return False
 
     def isAvailable(self):
         if self.status == 'available' and self.curCall is None:

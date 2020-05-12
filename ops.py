@@ -8,24 +8,22 @@ class Operators(object):
 
     def addOp(self, id):
         operator = Operator(id)
-        operator.status = 'Available'
+        operator.status = 'available'
         self.operators.append(operator)
 
     def lookOpAvailable(self):
         # Look for operator available
         for op in self.operators:
-            if op.status == 'Available' and op.curCall is None:
+            if op.status == 'available' and op.curCall is None:
                 return op
 
         # All operators are busy
         return None
 
-    def lookOpAnwers(self, op_id):
+    def lookOpAnswer(self, op_id):
         for op in self.operators:
-
-            #The telephone is calling
-            if op.status == 'Available' and op.curCall is not None:
-                return op
+            if op.answerCall(op_id):
+                return op.curCall
         return None
 
     def printa(self):
