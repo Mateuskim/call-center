@@ -1,6 +1,7 @@
 import cmd
 from call import Call
 from ops import Operators
+from queue import Queue
 
 class Server(cmd.Cmd):
 
@@ -8,6 +9,7 @@ class Server(cmd.Cmd):
         cmd.Cmd.__init__(self)
         self.prompt = '(Application)'
         self.operators = Operators()
+        self.call_queue = Queue()
 
         #Criando operadores
         self.operators.addOp('A')
@@ -23,18 +25,26 @@ class Server(cmd.Cmd):
             call = Call(call_id)
             print("Call", call_id, "received")
 
-            #Look for operator available
-            op = self.searchOperator()
-            if op is not None:
+            #Flag to see if call is going to queue or not
+            go_queue = True
 
-                #Operator op is available
-                print("Call " + call_id + " ringing for operator " + op.ID)
-                self.operators.setCall(op.ID, call)
-                # self.operators.printa()
-            else:
-                print("Coloca na pilha")
+            if self.call_queue.isEmpty():
+                #Look for operator available
+                op = self.searchOperator()
+                if op is not None:
+
+                    #Operator op is available
+                    print("Call " + call_id + " ringing for operator " + op.ID)
+                    self.operators.setCall(op.ID, call)
+                    go_queue = False
+
+            #If is going to queue
+            if go_queue:
+                print("Call " + call_id + " waiting in queue")
+                self.call_queue.enqueue(call)
+
         else:
-            print('Must specify a call id')
+            print('Must specify a call id ( Call <call_id>)')
 
     def do_answer(self, op_id):
         print('Call 1 answered by operator ', op_id)
