@@ -100,28 +100,35 @@ class Server(cmd.Cmd):
 
             #If call is answered
             elif call.getStatus() == 'answered' or call.getStatus() == 'ringing':
+                op = call.getOp()
+
+                # Messages different but the structure of
+                # answered and ringing is the same
+
+                if call.getStatus() == 'answered':
+                    print("Call " + call.ID + " finished and operator " + op.ID + " available")
+                else:
+                    print("Call " + call.ID + " missed")
+
                 call.setStatus('ended')
                 #unlink operator and call and delete from online calls
                 self.operators.finishCall(call)
                 self.online_calls_list.endCall(call)
-                op = call.getOp()
 
                 # Allocate a call in the queue to operator
                 if not self.call_queue.isEmpty():
 
+                    # Search for a call which is online
                     new_call = self.call_queue.dequeue()
                     while new_call.status == 'ended' and (not self.call_queue.isEmpty()):
                         new_call = self.call_queue.dequeue()
-                    print("Call " + call.ID + " finished and operator " + op.ID + " available")
+
 
                     if new_call.status != 'ended':
 
                         self.operators.setCall(op.ID, new_call)
 
-                        print(new_call.status)
                         print("Call " + new_call.ID + " ringing for operator " + op.ID)
-                else:
-                    print("Call " + call.ID + " finished and operator " + op.ID + " available")
 
 
 
