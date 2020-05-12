@@ -94,11 +94,9 @@ class Server(cmd.Cmd):
                 self.online_calls_list.endCall(call)
                 op = call.getOp()
 
-
-
-
+                # Allocate a call in the queue to operator
                 if not self.call_queue.isEmpty():
-                    #Allocate a call in the queue to operator
+
                     new_call = self.call_queue.dequeue()
                     self.operators.setCall(op.ID, new_call)
                     print("Call " + call.ID + " finished and operator " + op.ID + " available")
@@ -107,14 +105,6 @@ class Server(cmd.Cmd):
                     print("Call " + call.ID + " finished and operator " + op.ID + " available")
 
 
-                # print('Call ' + call.ID + "finished and operator " + op)
-        #
-        #
-        # if call is not None:
-        #     call.setStatus('ended')
-        #
-        # self.online_calls_list.printaCalls()
-        # print("Call "+ call_id+ " missed")
 
     def searchOperator(self, command, op_id = None):
 
