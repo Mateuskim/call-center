@@ -34,6 +34,7 @@ class Server(cmd.Cmd):
                 op = self.searchOperator("call")
                 if op is not None:
 
+                    print(op.getStatus())
                     #Allocate call to operator
                     print("Call " + call_id + " ringing for operator " + op.ID)
                     self.operators.setCall(op.ID, call)
