@@ -29,8 +29,9 @@ class Server(cmd.Cmd):
             go_queue = True
 
             if self.call_queue.isEmpty():
+
                 #Look for operator available
-                op = self.searchOperator()
+                op = self.searchOperator("call")
                 if op is not None:
 
                     #Operator op is available
@@ -48,8 +49,19 @@ class Server(cmd.Cmd):
         else:
             print('Must specify a call id ( Call <call_id>)')
 
+
+
+    # ------------------- Operator commands --------------------
+
     def do_answer(self, op_id):
-        print('Call 1 answered by operator ', op_id)
+        #Search for operator and answer his curCall
+        op = self.searchOperator("answer", op_id)
+
+        if op is not None:
+            call = op.curCall
+            call.setStatus("answered")
+            op.setStatus("busy")
+        print('Call '+call.ID+' answered by operator '+ op_id)
 
     def do_reject(self, op_id):
         print('Call 1 rejected by operator ', op_id)
@@ -58,5 +70,15 @@ class Server(cmd.Cmd):
         print("Call "+ call_id+ " missed")
 
 
-    def searchOperator(self):
-        return self.operators.lookOpAvailable()
+
+    def searchOperator(self, command, op_id = None):
+
+        # For call command the operator needs to be available without a
+        # call ringing
+        if command == 'call':
+            return self.operators.lookOpAvailable()
+
+        #For answer command the operator needs to be available and with a
+        #call ringing
+        elif command == 'answer':
+            return self.operators.lookOpAnwers(op_id)
