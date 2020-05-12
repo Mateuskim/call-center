@@ -14,7 +14,7 @@ class Operators(object):
     def lookOpAvailable(self):
         # Look for operator available
         for op in self.operators:
-            if op.isAvailable:
+            if op.isAvailable():
                 return op
 
         # All operators are busy
