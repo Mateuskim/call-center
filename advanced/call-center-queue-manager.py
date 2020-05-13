@@ -29,9 +29,10 @@ class Echo(protocol.Protocol):
     def dataReceived(self, data):
         command = translateCommand(data)
         answer_string = executeCommand(command)
-        stdout.write(answer_string)
+        stdin(answer_string)
         answer_json = createJson(answer_string)
         self.transport.write(answer_json)
+
 
 
 def main():
