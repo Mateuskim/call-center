@@ -1,6 +1,6 @@
 from twisted.internet import reactor, protocol
 from twisted.internet.stdio import StandardIO
-from sys import stdin
+from sys import stdin, stdout
 import json
 from server import Server
 
@@ -29,7 +29,7 @@ class Echo(protocol.Protocol):
     def dataReceived(self, data):
         command = translateCommand(data)
         answer_string = executeCommand(command)
-        stdin.write(answer_string)
+        stdout.write(answer_string)
         answer_json = createJson(answer_string)
         self.transport.write(answer_json)
 
