@@ -14,7 +14,7 @@ def translateCommand(str_json):
 
 def executeCommand(command):
     print(command)
-    return "Comando executado"
+    return command + "\n"
 
 
 def createJson(answer):
