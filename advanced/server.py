@@ -6,16 +6,19 @@ from callqueue import CallQueue
 
 class Server(cmd.Cmd):
 
-    def __init__(self):
+    def __init__(self, client):
         cmd.Cmd.__init__(self)
         self.prompt = '(Application)'
         self.operators = Operators()
         self.call_queue = CallQueue()
         self.online_calls_list = Calls()
 
+        self.client = client
+
         #Criando operadores
         self.operators.addOp('A')
         self.operators.addOp('B')
+
 
     # ------------------ Client commands -----------------------
 

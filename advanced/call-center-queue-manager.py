@@ -32,6 +32,8 @@ class Echo(protocol.Protocol):
         print(answer_string)
         answer_json = createJson(answer_string)
         self.transport.write(answer_json)
+        if reactor.running:
+            reactor.stop()
 
 
 
@@ -40,7 +42,7 @@ def main():
     factory = protocol.ServerFactory()
     factory.protocol = Echo
     reactor.listenTCP(5678, factory)
-    reactor.callInThread(Server().cmdloop)
+    reactor.callInThread(Server(factory.protocol).cmdloop)
     reactor.run()
 
 
