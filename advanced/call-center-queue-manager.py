@@ -1,4 +1,5 @@
 from twisted.internet import reactor, protocol
+from server import Server
 import json
 
 class Echo(protocol.Protocol):
@@ -24,6 +25,7 @@ def main():
     factory = protocol.ServerFactory()
     factory.protocol = Echo
     reactor.listenTCP(5678, factory)
+    reactor.callInThread(Server.cmdloop())
     reactor.run()
 
 
