@@ -7,7 +7,7 @@ class Echo(protocol.Protocol):
     def dataReceived(self, data):
         json_response = json.loads(data.decode("utf-8"))
         command = json_response["command"]
-        id = data["id"]
+        id = json_response["id"]
         if command == "call":
             json_response["response"] = "Call " + id + "received"
 
