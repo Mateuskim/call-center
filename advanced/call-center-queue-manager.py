@@ -12,7 +12,7 @@ class Echo(protocol.Protocol):
         answer_json = {}
         if command == "call":
             answer_json["response"] = "Call " + id + " received"
-
+        print(command + " " + id)
 
         answer = json.dumps(answer_json).encode("utf-8")
 
