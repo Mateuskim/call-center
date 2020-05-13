@@ -12,7 +12,7 @@ class Echo(protocol.Protocol):
             json_response["response"] = "Call " + id + "received"
 
 
-        answer = json.dump(json_response).encode("utf-8")
+        answer = json.dumps(json_response).encode("utf-8")
 
         "As soon as any data is received, write it back."
         self.transport.write(answer)
