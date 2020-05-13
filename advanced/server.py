@@ -2,7 +2,7 @@ import cmd
 from call import Call
 from calls import Calls
 from ops import Operators
-from queue import Queue
+from callqueue import CallQueue
 
 class Server(cmd.Cmd):
 
@@ -10,7 +10,7 @@ class Server(cmd.Cmd):
         cmd.Cmd.__init__(self)
         self.prompt = '(Application)'
         self.operators = Operators()
-        self.call_queue = Queue()
+        self.call_queue = CallQueue()
         self.online_calls_list = Calls()
 
         #Criando operadores
