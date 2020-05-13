@@ -14,7 +14,6 @@ def translateCommand(str_json):
 
 
 def executeCommand(command):
-    print(command)
     return command + "\n"
 
 
