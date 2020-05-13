@@ -5,8 +5,8 @@ class Echo(protocol.Protocol):
     """This is just about the simplest possible protocol"""
 
     def dataReceived(self, data):
-        json_response = json.loads(data[:].decode("utf-8"))
-        command = data["command"]
+        json_response = json.loads(data.decode("utf-8"))
+        command = json_response["command"]
         id = data["id"]
         if command == "call":
             json_response["response"] = "Call " + id + "received"
