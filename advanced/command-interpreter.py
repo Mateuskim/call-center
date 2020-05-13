@@ -1,10 +1,16 @@
 from twisted.internet import reactor, protocol
+import json
 
 def createJSON(command):
     json_command = {}
     json_command["command"] = command[:-2]
     json_command["id"] =command[-1:]
     return json_command
+def packJson(json_message):
+    return json.dumps(json_message).encode("utf-8")
+
+def translateAnswer(message_answer):
+    return json.loads(message_answer.decode("utf-8"))
 
 
 class EchoClient(protocol.Protocol):
@@ -12,15 +18,14 @@ class EchoClient(protocol.Protocol):
 
     def connectionMade(self):
 
-        json = createJSON('call 1')
-        self.transport.write(json)
+        command = createJSON('reject 1')
+        json_message = packJson(command)
+        self.transport.write(json_message)
 
     def dataReceived(self, answer):
         "As soon as any data is received, write it back."
-
-        str = answer["response"]
-
-        print( str)
+        answer_json = translateAnswer(answer)
+        print(answer_json["response"])
         self.transport.loseConnection()
 
     def connectionLost(self, reason):
