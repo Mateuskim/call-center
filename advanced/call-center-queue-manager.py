@@ -30,7 +30,7 @@ def main():
     factory = protocol.ServerFactory()
     factory.protocol = Echo
     reactor.listenTCP(5678, factory)
-    reactor.callInThread(Server().cmdloop())
+    # reactor.callInThread(Server().cmdloop())
     reactor.run()
 
 
