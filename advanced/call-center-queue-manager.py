@@ -5,17 +5,17 @@ class Echo(protocol.Protocol):
     """This is just about the simplest possible protocol"""
 
     def dataReceived(self, data):
-        json_response = json.loads(data.decode("utf-8"))
-        command = data["command"]
-        id = data["id"]
-        if command == "call":
-            json_response["response"] = "Call " + id + "received"
-
-
-        answer = json.dump(json_response).encode("utf-8")
+        # json_response = json.loads(data.decode("utf-8"))
+        # command = data["command"]
+        # id = data["id"]
+        # if command == "call":
+        #     json_response["response"] = "Call " + id + "received"
+        #
+        #
+        # answer = json.dump(json_response).encode("utf-8")
 
         "As soon as any data is received, write it back."
-        self.transport.write(answer)
+        self.transport.write(data)
 
 
 def main():
