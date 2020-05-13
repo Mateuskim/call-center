@@ -8,11 +8,12 @@ class Echo(protocol.Protocol):
         json_response = json.loads(data.decode("utf-8"))
         command = json_response["command"]
         id = json_response["id"]
+        answer_json = {}
         if command == "call":
-            json_response["response"] = "Call " + id + "received"
+            answer_json["response"] = "Call " + id + " received"
 
 
-        answer = json.dumps(json_response).encode("utf-8")
+        answer = json.dumps(answer_json).encode("utf-8")
 
         "As soon as any data is received, write it back."
         self.transport.write(answer)
