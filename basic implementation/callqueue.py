@@ -1,4 +1,4 @@
-class Queue:
+class CallQueue:
     def __init__(self):
         self.items = []
 
