@@ -1,9 +1,11 @@
-from cmd import Cmd
-from twisted.internet import reactor
-from twisted.internet.protocol import Protocol, ClientFactory
-from twisted.internet.endpoints import TCP4ClientEndpoint, connectProtocol
 import json
 from sys import stdout
+from cmd import Cmd
+from twisted.internet import reactor
+from twisted.internet.protocol import Protocol
+from twisted.internet.endpoints import TCP4ClientEndpoint, connectProtocol
+from server import Server
+
 
 
 def createJSON(command):
@@ -66,9 +68,13 @@ class MyCmd(Cmd):
 
 
 class MyClient(Protocol):
+    def __init__(self, myServer):
+        self.myServer = myServer
+
     def dataReceived(self, data):
         answer_json = translateAnswer(data)
         answer = getAnswer(answer_json)
+        self.myServer.execute_Command(answer)
         stdout.write(answer)
         stdout.flush()
 
@@ -78,8 +84,10 @@ class MyClient(Protocol):
 
 # this connects the protocol to a server running on port 8000
 def main():
+
+    myServer = Server()
     point = TCP4ClientEndpoint(reactor, "34.95.167.27", 5678)
-    client = MyClient()
+    client = MyClient(myServer)
     connectProtocol(point, client)
     reactor.callInThread(MyCmd(client).cmdloop)
     reactor.run()

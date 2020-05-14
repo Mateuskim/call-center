@@ -4,31 +4,31 @@ from calls import Calls
 from ops import Operators
 from callqueue import CallQueue
 
-class Server(cmd.Cmd):
+class Server:
 
-    def __init__(self, client):
-        cmd.Cmd.__init__(self)
-        self.prompt = '(Application)'
+    def __init__(self):
         self.operators = Operators()
         self.call_queue = CallQueue()
         self.online_calls_list = Calls()
 
-        self.client = client
 
         #Criando operadores
         self.operators.addOp('A')
         self.operators.addOp('B')
 
+    def execute_Command(self, command):
+        if command == "call 1":
+            self.call(1)
 
     # ------------------ Client commands -----------------------
 
-    def do_call(self, call_id):
+    def call(self, call_id):
 
         #If the call input is correct
         if call_id != '':
 
             call = Call(call_id)
-            print("Call " + call_id + " received")
+            print("Call " + str(call_id) + " received")
 
             #Adding call to the list of calls which are happening
             self.online_calls_list.addCall(call)
@@ -43,7 +43,7 @@ class Server(cmd.Cmd):
                 if op is not None:
 
                     #Allocate call to operator
-                    print("Call " + call_id + " ringing for operator " + op.ID)
+                    print("Call " + str(call_id) + " ringing for operator " + op.ID)
                     self.operators.setCall(op.ID, call)
                     go_queue = False
 
@@ -59,7 +59,7 @@ class Server(cmd.Cmd):
 
     # ------------------- Operator commands --------------------
 
-    def do_answer(self, op_id):
+    def answer(self, op_id):
 
         #Search for operator and answer his curCall
         call = self.searchOperator("answer", op_id)
@@ -69,7 +69,7 @@ class Server(cmd.Cmd):
             print("Call " + call.ID + " answered by operator " + op_id)
 
 
-    def do_reject(self, op_id):
+    def reject(self, op_id):
         call = self.searchOperator("reject", op_id)
 
 
@@ -86,7 +86,7 @@ class Server(cmd.Cmd):
                     self.operators.setCall(op.ID, call)
 
 
-    def do_hangup(self, call_id):
+    def hangup(self, call_id):
         #Search for the call
         call = self.online_calls_list.searchCall(call_id)
         if call is not None:
