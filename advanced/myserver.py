@@ -1,4 +1,4 @@
-from twisted.internet.protocol import Protocol, ServerFactory
+from twisted.internet.protocol import Protocol
 
 from message import *
 
