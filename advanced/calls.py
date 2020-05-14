@@ -18,3 +18,6 @@ class Calls(object):
     def printaCalls(self):
         for i in self.calls:
             print(i.status)
+
+    def clearCalls(self):
+        self.calls = []

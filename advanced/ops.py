@@ -49,3 +49,8 @@ class Operators(object):
         op = call.getOp()
         op.curCall = None
         op.setStatus('available')
+
+    def clear_Ops(self):
+        for op in self.operators:
+            op.curCall = None
+            op.setStatus('available')

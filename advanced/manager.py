@@ -9,6 +9,8 @@ class Manager:
     def __init__(self):
         self.operators = Operators()
         self.call_queue = CallQueue()
+
+        #Store all the calls which hasn't been hung up
         self.online_calls_list = Calls()
 
 
@@ -27,6 +29,8 @@ class Manager:
             return self.reject(ID)
         elif command == 'hangup':
             return self.hangup(ID)
+        elif command == 'clear':
+            return self.clear()
 
     # ------------------ Client commands -----------------------
 
@@ -162,6 +166,12 @@ class Manager:
                         answer_message += "Call " + new_call.ID + " ringing for operator " + op.ID + '\n'
                         print("Call " + new_call.ID + " ringing for operator " + op.ID)
         return answer_message
+
+    def clear(self):
+        self.operators.clearOps()
+        self.call_queue.items = []
+        self.online_calls_list.calls = []
+        return "clear system succefull"
 
 
     def searchOperator(self, command, op_id = None):
