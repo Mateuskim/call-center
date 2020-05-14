@@ -8,7 +8,8 @@ class Calls(object):
     def endCall(self, call):
         for c in self.calls:
             if call.ID == c.ID:
-                self.calls.remove(call)
+                if call in self.calls:
+                    self.calls.remove(call)
 
     def searchCall(self, call_id):
         for c in self.calls:
