@@ -1,4 +1,3 @@
-import cmd
 from call import Call
 from calls import Calls
 from ops import Operators
@@ -140,7 +139,7 @@ class Manager:
                     # print("Call " + call.ID + " finished and operator " + op.ID + " available")
                     answer_message += "Call " + call.ID + " finished and operator " + op.ID + " available\n"
                 else:
-                    print("Call " + call.ID + " missed")
+                    # print("Call " + call.ID + " missed")
                     answer_message += "Call " + call.ID + " missed\n"
 
                 call.setStatus('ended')
