@@ -1,5 +1,9 @@
-from twisted.internet import reactor, protocol
+from cmd import Cmd
+from twisted.internet import reactor
+from twisted.internet.protocol import Protocol, ClientFactory
+from twisted.internet.endpoints import TCP4ClientEndpoint, connectProtocol
 import json
+from sys import stdout
 
 def createJSON(command):
     json_command = {}
@@ -12,41 +16,44 @@ def packJson(json_message):
 def translateAnswer(message_answer):
     return json.loads(message_answer.decode("utf-8"))
 
+def getAnswer(message_json):
+    return message_json["response"] + "\n"
 
-class EchoClient(protocol.Protocol):
-    """Once connected, send a message, then print the result."""
+class MyCmd(Cmd):
+    def __init__(self, client):
+        Cmd.__init__(self)
+        self.prompt = ''
+        self.client = client
 
-    def connectionMade(self):
+    def do_call(self, call_id):
+        command = 'call ' +call_id
+        json_command = createJSON(command)
+        pack_json = packJson(json_command)
+        self.client.transport.write(pack_json)
 
-        command = createJSON('reject 1')
-        json_message = packJson(command)
-        self.transport.write(json_message)
+    def do_quit(self, line):
+        if reactor.running:
+            reactor.stop()
+        stdout.write("\n")
+        return True
 
-    def dataReceived(self, answer):
-        "As soon as any data is received, write it back."
-        answer_json = translateAnswer(answer)
-        print(answer_json["response"])
-        self.transport.loseConnection()
+class MyClient(Protocol):
+    def dataReceived(self, data):
+        answer_json = translateAnswer(data)
+        answer = getAnswer(answer_json)
+        stdout.write(answer)
 
-    def connectionLost(self, reason):
-        print("connection lost")
+    def sendData(self, data):
+        self.transport.write(data)
+        self.transport.write("\n")
 
-
-class EchoFactory(protocol.ClientFactory):
-    protocol = EchoClient
-
-    def clientConnectionFailed(self, connector, reason):
-        print("Connection failed - goodbye!")
-        reactor.stop()
-
-    def clientConnectionLost(self, connector, reason):
-        print("Connection lost - goodbye!")
-        reactor.stop()
 
 # this connects the protocol to a server running on port 8000
 def main():
-    f = EchoFactory()
-    reactor.connectTCP("34.95.167.27", 5678, f)
+    point = TCP4ClientEndpoint(reactor, "34.95.167.27", 5678)
+    client = MyClient()
+    connectProtocol(point, client)
+    reactor.callInThread(MyCmd(client).cmdloop)
     reactor.run()
 
 # this only runs if the module was *not* imported
