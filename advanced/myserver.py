@@ -1,13 +1,20 @@
 from twisted.internet.protocol import Protocol, ServerFactory
 
-from advanced.message import *
+from message import *
 
 
-class MyServer(Protocol):
+class MyProtocol(Protocol):
     """This is just about the simplest possible protocol"""
 
-    def __init__(self, manager):
+    def __init__(self, factory,  manager):
         self.manager = manager
+        self.factory = factory
+
+    def connectionMade(self):
+        self.factory.numProtocols = self.factory.numProtocols + 1
+
+    def connectionLost(self, reason):
+        self.factory.numProtocols = self.factory.numProtocols - 1
 
     def dataReceived(self, data):
         command = translateCommand(data)

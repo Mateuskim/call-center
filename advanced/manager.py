@@ -3,7 +3,7 @@ from call import Call
 from calls import Calls
 from ops import Operators
 from callqueue import CallQueue
-from advanced.message import *
+from message import *
 
 class Manager:
 
