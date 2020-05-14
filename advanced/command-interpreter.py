@@ -74,7 +74,6 @@ class MyClient(Protocol):
     def dataReceived(self, data):
         answer_json = translateAnswer(data)
         answer = getAnswer(answer_json)
-        self.myServer.execute_Command(answer)
         stdout.write(answer)
         stdout.flush()
 

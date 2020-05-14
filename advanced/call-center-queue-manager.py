@@ -7,9 +7,10 @@ from myserver import MyServer
 def main():
     """Declare Server class"""
     myManager = Manager()
-    point = TCP4ServerEndpoint(reactor, 5678)
+    endpoint = TCP4ServerEndpoint(reactor, 5678)
     server = MyServer(myManager)
-    connectProtocol(point, server)
+    endpoint.listen()
+
     reactor.run()
 
 
