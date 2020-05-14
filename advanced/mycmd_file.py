@@ -13,6 +13,9 @@ class MyCmd(Cmd):
     def default(self, line):
         client.sendData(line)
 
+    def do_ola(self, line):
+        print("ola")
+
     def do_EOF(self, line):
         if reactor.running:
             reactor.stop()
@@ -28,7 +31,7 @@ class MyClient(Protocol):
         self.transport.write(data)
         self.transport.write("\n")
 
-point = TCP4ClientEndpoint(reactor, "localhost", 6004)
+point = TCP4ClientEndpoint(reactor, "localhost", 5678)
 client = MyClient()
 connectProtocol(point, client)
 reactor.callInThread(MyCmd(client).cmdloop)
