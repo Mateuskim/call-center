@@ -1,9 +1,5 @@
 from twisted.internet import reactor, protocol
-from twisted.internet.stdio import StandardIO
-from sys import stdin, stdout
 import json
-from server import Server
-
 
 def translateCommand(str_json):
     json_response = json.loads(str_json.decode("utf-8"))
@@ -26,14 +22,12 @@ def createJson(answer):
 class Echo(protocol.Protocol):
     """This is just about the simplest possible protocol"""
 
+
     def dataReceived(self, data):
         command = translateCommand(data)
         answer_string = executeCommand(command)
-        print(answer_string)
         answer_json = createJson(answer_string)
         self.transport.write(answer_json)
-        if reactor.running:
-            reactor.stop()
 
 
 
@@ -42,7 +36,6 @@ def main():
     factory = protocol.ServerFactory()
     factory.protocol = Echo
     reactor.listenTCP(5678, factory)
-    reactor.callInThread(Server(factory.protocol).cmdloop)
     reactor.run()
 
 
