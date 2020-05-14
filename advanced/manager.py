@@ -3,6 +3,7 @@ from call import Call
 from calls import Calls
 from ops import Operators
 from callqueue import CallQueue
+from advanced.message import *
 
 class Manager:
 
@@ -16,12 +17,17 @@ class Manager:
         self.operators.addOp('A')
         self.operators.addOp('B')
 
-    def execute_Command(self, command):
-        if command == "call 1":
-            print(self.call('1'))
-            print(self.reject('A'))
-
-            print(self.hangup('1'))
+    def execute_Command(self, json_file):
+        command = json_file.getCommand(json_file)
+        ID = json_file.getID(json_file)
+        if command == 'call':
+            return self.call(ID)
+        elif command == 'answer':
+            return self.answer(ID)
+        elif command == 'reject':
+            return self.reject(ID)
+        elif command == 'hangup':
+            return self.hangup(ID)
 
     # ------------------ Client commands -----------------------
 
