@@ -11,6 +11,8 @@ class MyFactory(Factory):
 
     def buildProtocol(self, addr):
         return MyProtocol(manager=self.manager)
+
+
 def main():
 
     manager = Manager()
