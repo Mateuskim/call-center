@@ -4,7 +4,7 @@ from calls import Calls
 from ops import Operators
 from callqueue import CallQueue
 
-class Server:
+class Manager:
 
     def __init__(self):
         self.operators = Operators()
