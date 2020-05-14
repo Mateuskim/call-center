@@ -6,15 +6,9 @@ from message import *
 class MyProtocol(Protocol):
     """This is just about the simplest possible protocol"""
 
-    def __init__(self, factory,  manager):
+    def __init__(self, manager):
         self.manager = manager
-        self.factory = factory
 
-    def connectionMade(self):
-        self.factory.numProtocols = self.factory.numProtocols + 1
-
-    def connectionLost(self, reason):
-        self.factory.numProtocols = self.factory.numProtocols - 1
 
     def dataReceived(self, data):
         command = translateCommand(data)
