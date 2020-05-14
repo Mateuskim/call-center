@@ -1,0 +1,16 @@
+from twisted.internet.protocol import Protocol, ServerFactory
+
+from advanced.message import *
+
+
+class MyServer(Protocol):
+    """This is just about the simplest possible protocol"""
+
+    def __init__(self, manager):
+        self.manager = manager
+
+    def dataReceived(self, data):
+        command = translateCommand(data)
+        answer_string = self.manager.executeCommand(command)
+        answer_json = createJson(answer_string)
+        self.transport.write(answer_json)
