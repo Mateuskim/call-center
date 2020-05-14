@@ -12,6 +12,6 @@ class MyProtocol(Protocol):
 
     def dataReceived(self, data):
         command = translateCommand(data)
-        answer_string = self.manager.executeCommand(command)
+        answer_string = self.manager.execute_Command(command)
         answer_json = createJson(answer_string)
         self.transport.write(answer_json)

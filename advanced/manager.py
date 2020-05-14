@@ -3,7 +3,7 @@ from call import Call
 from calls import Calls
 from ops import Operators
 from callqueue import CallQueue
-from message import *
+from message import getCommand, getID
 
 class Manager:
 
@@ -18,8 +18,8 @@ class Manager:
         self.operators.addOp('B')
 
     def execute_Command(self, json_file):
-        command = json_file.getCommand(json_file)
-        ID = json_file.getID(json_file)
+        command = getCommand(json_file)
+        ID = getID(json_file)
         if command == 'call':
             return self.call(ID)
         elif command == 'answer':
