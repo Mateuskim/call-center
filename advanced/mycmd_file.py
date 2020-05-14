@@ -2,8 +2,7 @@ from sys import stdout
 from cmd import Cmd
 
 from twisted.internet import reactor
-from twisted.internet.protocol import Protocol
-from twisted.internet.endpoints import TCP4ClientEndpoint, connectProtocol
+from twisted.internet.protocol import Protocol, ServerFactory
 
 class MyCmd(Cmd):
     def __init__(self, client):
@@ -13,7 +12,7 @@ class MyCmd(Cmd):
     def default(self, line):
         client.sendData(line)
 
-    def do_ola(self, line):
+    def do_greeting(self, line):
         print("ola")
 
     def do_EOF(self, line):
@@ -31,8 +30,8 @@ class MyClient(Protocol):
         self.transport.write(data)
         self.transport.write("\n")
 
-point = TCP4ClientEndpoint(reactor, "localhost", 5678)
-client = MyClient()
-connectProtocol(point, client)
-reactor.callInThread(MyCmd(client).cmdloop)
+factory = ServerFactory()
+factory.protocol = MyClient()
+reactor.listenTCP(5678, factory)
+reactor.callInThread(MyCmd(factory.protocol).cmdloop)
 reactor.run()
