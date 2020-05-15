@@ -5,7 +5,7 @@ from message import *
 class MyClient(Protocol):
 
     def connectionMade(self):
-        print("Connection Made")
+        print("Connection made")
 
     def dataReceived(self, data):
         answer_json = translateMessage(data)

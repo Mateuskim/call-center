@@ -10,7 +10,7 @@ class MyProtocol(Protocol):
         self.manager = manager
 
     def connectionMade(self):
-        stdout.write("Connection made")
+        print("Connection made")
 
 
     def dataReceived(self, data):
