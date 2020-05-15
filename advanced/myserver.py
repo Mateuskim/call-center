@@ -13,7 +13,7 @@ class MyProtocol(Protocol):
 
     def dataReceived(self, data):
         command = translateMessage(data)
-        answer_string = self.manager.execute_Command(command)
+        answer_string = self.manager.execute_Command(command, self)
         if answer_string is not None:
             answer_json = createResponse(answer_string)
         else:
