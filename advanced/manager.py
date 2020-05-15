@@ -42,7 +42,6 @@ class Manager:
         if call_id != '':
 
             call = Call(call_id)
-            # print("Call " + call_id + " received\n")
             answer_message += "Call " + call_id + " received\n"
 
             #Adding call to the list of calls which are happening
@@ -60,13 +59,11 @@ class Manager:
                     answer_message += "Call " + call_id + " ringing for operator " + op.ID + "\n"
 
                     #Allocate call to operator
-                    # print("Call " + str(call_id) + " ringing for operator " + op.ID)
                     self.operators.setCall(op.ID, call)
                     go_queue = False
 
             #If is going to queue
             if go_queue:
-                # print("Call " + call_id + " waiting in queue")
                 answer_message += "Call " + call_id + " waiting in queue\n"
                 call.setStatus("waiting")
                 self.call_queue.enqueue(call)
@@ -100,7 +97,6 @@ class Manager:
         # If operator <op_id> has a call ringing
         if call is not None:
 
-            # print("Call " + call.ID + " rejected by operator " + op_id)
             answer_message += "Call " + call.ID + " rejected by operator " + op_id + "\n"
 
             #While don't find a new operator or don't happen hangup command
@@ -109,7 +105,6 @@ class Manager:
                 if op is not None:
 
                     # Allocate call to operator
-                    # print("Call " + call.ID + " ringing for operator " + op.ID)
                     answer_message += "Call " + call.ID + " ringing for operator " + op.ID + "\n"
                     self.operators.setCall(op.ID, call)
 
@@ -129,7 +124,6 @@ class Manager:
                 #Set call status to ended and delete from the list of online calls
                 call.setStatus('ended')
                 self.online_calls_list.endCall(call)
-                # print("Call " + call_id + " missed")
                 answer_message += "Call " + call_id + " missed\n"
 
             #If call is answered
@@ -140,10 +134,8 @@ class Manager:
                 # answered and ringing is the same
 
                 if call.getStatus() == 'answered':
-                    # print("Call " + call.ID + " finished and operator " + op.ID + " available")
                     answer_message += "Call " + call.ID + " finished and operator " + op.ID + " available\n"
                 else:
-                    # print("Call " + call.ID + " missed")
                     answer_message += "Call " + call.ID + " missed\n"
 
                 call.setStatus('ended')
@@ -164,7 +156,6 @@ class Manager:
 
                         self.operators.setCall(op.ID, new_call)
                         answer_message += "Call " + new_call.ID + " ringing for operator " + op.ID + '\n'
-                        print("Call " + new_call.ID + " ringing for operator " + op.ID)
         return answer_message
 
     def clear(self):
