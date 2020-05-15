@@ -19,10 +19,10 @@ class Manager:
         self.operators.addOp('A')
         self.operators.addOp('B')
 
-    def checkTimeOut(self, call_id, protocol):
+    def checkTimeOut(self, op_id , call_id, protocol):
         time.sleep(2)
         if self.online_calls_list.checkCallIgnored(call_id):
-            protocol.sendData("Ligacao rejeitada")
+            protocol.sendData("Call " + call_id + " ignored by operator " + op_id + "\n")
 
     # -------------------- Input ------------------------------
 
@@ -86,7 +86,7 @@ class Manager:
                 if op is not None:
 
                     answer_message += "Call " + call_id + " ringing for operator " + op.ID + "\n"
-                    reactor.callInThread(self.checkTimeOut, call_id, protocol)
+                    reactor.callInThread(self.checkTimeOut, op.ID, call_id, protocol)
 
                     #Allocate call to operator
                     self.operators.setCall(op.ID, call)
