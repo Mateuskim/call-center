@@ -16,7 +16,12 @@ class Calls(object):
             if call_id == c.ID:
                 return c
         return None
-
+    def checkCallIgnored(self, call_id):
+        for c in self.calls:
+            if call_id == c.ID:
+                if c.getStatus() == 'ringing':
+                    return True
+        return False
     def printaCalls(self):
         for i in self.calls:
             print(i.status)
