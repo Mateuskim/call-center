@@ -3,6 +3,7 @@ from twisted.internet.protocol import Factory
 from twisted.internet.endpoints import TCP4ServerEndpoint
 from manager import Manager
 from myserver import MyProtocol
+import time as timer
 
 
 class MyFactory(Factory):
@@ -12,13 +13,16 @@ class MyFactory(Factory):
     def buildProtocol(self, addr):
         return MyProtocol(manager=self.manager)
 
+    def checkTimeOut(self):
+        timer.sleep(2)
+        print("Passaram 2 segundos")
 
 def main():
     manager = Manager()
-
     factory = MyFactory(manager)
     endpoint = TCP4ServerEndpoint(reactor, 5678)
     endpoint.listen(factory)
+    reactor.callInThread(factory.checkTimeOut())
     reactor.run()
 
 # this only runs if the module was *not* imported
