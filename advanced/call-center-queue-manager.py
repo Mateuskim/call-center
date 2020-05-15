@@ -13,10 +13,6 @@ class MyFactory(Factory):
     def buildProtocol(self, addr):
         return MyProtocol(manager=self.manager)
 
-    def checkTimeOut(self):
-        while(reactor.running):
-            timer.sleep(2)
-            print("Passaram 2 segundos")
 
 def main():
     manager = Manager()

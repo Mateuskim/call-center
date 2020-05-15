@@ -1,6 +1,4 @@
 from twisted.internet.protocol import Protocol
-from sys import stdout
-
 from message import *
 
 

@@ -20,7 +20,7 @@ class Manager:
         self.operators.addOp('B')
 
     def checkTimeOut(self, call_id):
-        time.sleep(10)
+        time.sleep(2)
         if self.online_calls_list.checkCallIgnored(call_id):
             print("Ligacao rejeitada")
 
