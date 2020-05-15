@@ -43,12 +43,15 @@ class Manager:
         message_error = None
 
         #Verify if call_id already exists
-        if command == 'call' or command == 'hangup':
+        if command == 'call':
             if self.online_calls_list.searchCall(ID):
-                message_error = "call_id already exists"
+                message_error = "call_id already exists\n"
         elif command == 'answer' or command == 'reject':
             if self.operators.searchOp(ID) is None:
                 message_error = "Operator doesn't exists\n"
+        elif command == 'hangup':
+            if self.online_calls_list.searchCall(ID) is None:
+                message_error = "call_id doesn't exists\n"
         return message_error
 
     # ------------------ Client commands -----------------------
