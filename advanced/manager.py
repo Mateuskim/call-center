@@ -143,7 +143,7 @@ class Manager:
         return answer_message
 
 
-    def hangup(self, call_id):
+    def hangup(self, call_id, protocol):
 
         answer_message = ''
         #Search for the call
@@ -188,6 +188,7 @@ class Manager:
 
                         self.operators.setCall(op.ID, new_call)
                         answer_message += "Call " + new_call.ID + " ringing for operator " + op.ID + '\n'
+                        reactor.callInThread(self.checkTimeOut, op.ID, new_call.ID, protocol)
         return answer_message
 
     def clear(self):
