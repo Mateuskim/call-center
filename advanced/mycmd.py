@@ -1,5 +1,6 @@
 from cmd import Cmd
 from message import *
+import sys
 
 from twisted.internet import reactor
 
@@ -37,7 +38,7 @@ class MyCmd(Cmd):
         pack_json = packJson(json_command)
         self.client.sendData(pack_json)
 
-    def do_quit(self, line):
+    def do_quit(self, *args):
         if reactor.running:
             reactor.stop()
         return True

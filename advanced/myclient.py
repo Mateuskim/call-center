@@ -12,7 +12,7 @@ class MyClient(Protocol):
         answer = getAnswer(answer_json)
         print("========== ANSWER FROM SERVER ==============")
         print(answer, end='')
-        print("============================================\n")
+        print("============================================")
         stdout.flush()
 
     def sendData(self, data):
