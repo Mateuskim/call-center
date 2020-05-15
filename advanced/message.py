@@ -2,18 +2,18 @@
 import json
 
 
-def translateCommand(str_json):
-    return json.loads(str_json.decode("utf-8"))
-    # command = json_response["command"]
-    # id = json_response["id"]
-    # command_string = command + " " + id
-    # return command_string
-
-
-def createJson(answer):
+def createResponse(answer):
     answer_json = {}
     answer_json["response"] = answer
     return json.dumps(answer_json).encode("utf-8")
+
+
+def packJson(json_message):
+    return json.dumps(json_message).encode("utf-8")
+
+
+def translateMessage(message_answer):
+    return json.loads(message_answer.decode("utf-8"))
 
 
 def getCommand(json_file):
@@ -22,3 +22,7 @@ def getCommand(json_file):
 
 def getID(json_file):
     return json_file["id"]
+
+
+def getAnswer(message_json):
+    return message_json["response"]
