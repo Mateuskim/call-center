@@ -14,10 +14,11 @@ class MyFactory(Factory):
 
 
 def main():
-
     manager = Manager()
+
+    factory = MyFactory(manager)
     endpoint = TCP4ServerEndpoint(reactor, 5678)
-    endpoint.listen(MyFactory(manager))
+    endpoint.listen(factory)
     reactor.run()
 
 # this only runs if the module was *not* imported
