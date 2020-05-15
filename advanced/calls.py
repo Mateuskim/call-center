@@ -20,8 +20,13 @@ class Calls(object):
         for c in self.calls:
             if call_id == c.ID:
                 if c.getStatus() == 'ringing':
+                    c.setStatus("ignored")
+                    c.op.setStatus("available")
+                    c.setOp(None)
+
                     return True
         return False
+
     def printaCalls(self):
         for i in self.calls:
             print(i.status)
