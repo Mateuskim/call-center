@@ -136,7 +136,8 @@ class Manager:
 
                     # Allocate call to operator
                     answer_message += "Call " + call.ID + " ringing for operator " + op.ID + "\n"
-                    reactor.callInThread(self.checkTimeOut(op.ID, call.ID, protocol))
+
+                    reactor.callInThread(self.checkTimeOut, op.ID, call.ID, protocol)
                     self.operators.setCall(op.ID, call)
 
         return answer_message
