@@ -16,5 +16,8 @@ class MyProtocol(Protocol):
     def dataReceived(self, data):
         command = translateMessage(data)
         answer_string = self.manager.execute_Command(command)
-        answer_json = createResponse(answer_string)
+        if answer_string is not None:
+            answer_json = createResponse(answer_string)
+        else :
+            answer_json = createResponse("Command not executed")
         self.transport.write(answer_json)
