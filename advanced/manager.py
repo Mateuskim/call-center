@@ -19,14 +19,14 @@ class Manager:
         self.operators.addOp('A')
         self.operators.addOp('B')
 
-    def checkTimeOut(self, call_id):
+    def checkTimeOut(self, call_id, protocol):
         time.sleep(2)
         if self.online_calls_list.checkCallIgnored(call_id):
-            print("Ligacao rejeitada")
+            protocol.sendData("Ligacao rejeitada")
 
     # -------------------- Input ------------------------------
 
-    def execute_Command(self, json_file):
+    def execute_Command(self, json_file, protocol):
         command = getCommand(json_file)
         ID = getID(json_file)
 
@@ -36,7 +36,7 @@ class Manager:
             return error_message
         else:
             if command == 'call':
-                return self.call(ID)
+                return self.call(ID, protocol)
             elif command == 'answer':
                 return self.answer(ID)
             elif command == 'reject':
@@ -63,7 +63,7 @@ class Manager:
 
     # ------------------ Client commands -----------------------
 
-    def call(self, call_id):
+    def call(self, call_id, protocol):
         answer_message = ''
 
 
@@ -86,7 +86,7 @@ class Manager:
                 if op is not None:
 
                     answer_message += "Call " + call_id + " ringing for operator " + op.ID + "\n"
-                    reactor.callInThread(self.checkTimeOut, call_id)
+                    reactor.callInThread(self.checkTimeOut, call_id, protocol)
 
                     #Allocate call to operator
                     self.operators.setCall(op.ID, call)
