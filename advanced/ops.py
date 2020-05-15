@@ -11,6 +11,12 @@ class Operators(object):
         operator.status = 'available'
         self.operators.append(operator)
 
+    def searchOp(self, id):
+        for op in self.operators:
+            if op.ID == id:
+                return op
+        return None
+
     def lookOpAvailable(self):
         # Look for operator available
         for op in self.operators:
@@ -34,9 +40,9 @@ class Operators(object):
                 return cur_call
         return None
 
-    def printa(self):
+    def printID(self):
         for op in self.operators:
-            print(op)
+            print(op.ID+" ", end='')
 
     #Can be optmized
     def setCall(self, op_id, call):
