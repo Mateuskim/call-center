@@ -14,15 +14,16 @@ class MyFactory(Factory):
         return MyProtocol(manager=self.manager)
 
     def checkTimeOut(self):
-        timer.sleep(2)
-        print("Passaram 2 segundos")
+        while(reactor.running):
+            timer.sleep(2)
+            print("Passaram 2 segundos")
 
 def main():
     manager = Manager()
     factory = MyFactory(manager)
     endpoint = TCP4ServerEndpoint(reactor, 5678)
     endpoint.listen(factory)
-    reactor.callInThread(factory.checkTimeOut())
+    reactor.callInThread(factory.checkTimeOut)
     reactor.run()
 
 # this only runs if the module was *not* imported
