@@ -13,24 +13,43 @@ class Manager:
         #Store all the calls which hasn't been hung up
         self.online_calls_list = Calls()
 
-
-        #Criando operadores
+        #Creating operators
         self.operators.addOp('A')
         self.operators.addOp('B')
+
+    # -------------------- Input ------------------------------
 
     def execute_Command(self, json_file):
         command = getCommand(json_file)
         ID = getID(json_file)
-        if command == 'call':
-            return self.call(ID)
-        elif command == 'answer':
-            return self.answer(ID)
-        elif command == 'reject':
-            return self.reject(ID)
-        elif command == 'hangup':
-            return self.hangup(ID)
-        elif command == 'clear':
-            return self.clear()
+
+        error_message = self.validateCommand(command, ID)
+
+        if error_message:
+            return error_message
+        else:
+            if command == 'call':
+                return self.call(ID)
+            elif command == 'answer':
+                return self.answer(ID)
+            elif command == 'reject':
+                return self.reject(ID)
+            elif command == 'hangup':
+                return self.hangup(ID)
+            elif command == 'clear':
+                return self.clear()
+
+    def validateCommand(self, command, ID):
+        message_error = None
+
+        #Verify if call_id already exists
+        if command == 'call' or command == 'hangup':
+            if self.online_calls_list.searchCall(ID):
+                message_error = "call_id already exists"
+        elif command == 'answer' or command == 'reject':
+            if self.operators.searchOp(ID) is None:
+                message_error = "Operator doesn't exists\n"
+        return message_error
 
     # ------------------ Client commands -----------------------
 
