@@ -3,6 +3,8 @@ from calls import Calls
 from ops import Operators
 from callqueue import CallQueue
 from message import getCommand, getID
+from twisted.internet import reactor
+import time
 
 class Manager:
 
@@ -16,6 +18,10 @@ class Manager:
         #Creating operators
         self.operators.addOp('A')
         self.operators.addOp('B')
+
+    def checkTimeOut(self):
+        time.sleep(2)
+        print("Se passaram 2 segundos")
 
     # -------------------- Input ------------------------------
 
@@ -79,6 +85,7 @@ class Manager:
                 if op is not None:
 
                     answer_message += "Call " + call_id + " ringing for operator " + op.ID + "\n"
+                    reactor.callInThread(self.checkTimeOut)
 
                     #Allocate call to operator
                     self.operators.setCall(op.ID, call)

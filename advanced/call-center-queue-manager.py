@@ -23,7 +23,6 @@ def main():
     factory = MyFactory(manager)
     endpoint = TCP4ServerEndpoint(reactor, 5678)
     endpoint.listen(factory)
-    reactor.callInThread(factory.checkTimeOut)
     reactor.run()
 
 # this only runs if the module was *not* imported
