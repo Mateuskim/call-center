@@ -40,7 +40,7 @@ class Manager:
             elif command == 'answer':
                 return self.answer(ID)
             elif command == 'reject':
-                return self.reject(ID)
+                return self.reject(ID, protocol)
             elif command == 'hangup':
                 return self.hangup(ID)
             elif command == 'clear':
@@ -118,7 +118,7 @@ class Manager:
 
         return answer_message
 
-    def reject(self, op_id):
+    def reject(self, op_id, protocol):
 
         answer_message = ''
         call = self.searchOperator("reject", op_id)
@@ -136,6 +136,7 @@ class Manager:
 
                     # Allocate call to operator
                     answer_message += "Call " + call.ID + " ringing for operator " + op.ID + "\n"
+                    reactor.callInThread(self.checkTimeOut(op.ID, call.ID, protocol))
                     self.operators.setCall(op.ID, call)
 
         return answer_message
