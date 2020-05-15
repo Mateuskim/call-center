@@ -11,8 +11,9 @@ def createResponse(answer):
 
 def createCommand(command):
     json_command = {}
-    json_command["command"] = command[:-2]
-    json_command["id"] = command[-1:]
+    data = command.split()
+    json_command["command"] = data[0]
+    json_command["id"] = data[1]
     json_command["response"] = "mensagem default"
     return json_command
 
