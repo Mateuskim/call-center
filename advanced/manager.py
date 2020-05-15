@@ -20,7 +20,7 @@ class Manager:
         self.operators.addOp('B')
 
     def checkTimeOut(self, op_id , call_id, protocol):
-        time.sleep(2)
+        time.sleep(10)
         answer_message = ''
         if self.online_calls_list.checkCallIgnored(call_id):
             answer_message += "Call " + call_id + " ignored by operator " + op_id + "\n"
