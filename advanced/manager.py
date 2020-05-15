@@ -42,7 +42,7 @@ class Manager:
             elif command == 'reject':
                 return self.reject(ID, protocol)
             elif command == 'hangup':
-                return self.hangup(ID)
+                return self.hangup(ID, protocol)
             elif command == 'clear':
                 return self.clear()
 
