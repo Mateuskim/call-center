@@ -13,8 +13,10 @@ def createCommand(command):
     json_command = {}
     data = command.split()
     json_command["command"] = data[0]
-    json_command["id"] = data[1]
-    json_command["response"] = "mensagem default"
+    if len(data) > 1:
+        json_command["id"] = data[1]
+    else:
+        json_command["id"] = -1
     return json_command
 
 
