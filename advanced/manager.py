@@ -107,7 +107,7 @@ class Manager:
                 call.setStatus("waiting")
                 self.call_queue.enqueue(call)
         else:
-            answer_message = 'Must specify a call id ( Call <call_id>)'
+            answer_message = 'Must specify a call id ( Call <call_id>)\n'
 
         return answer_message
 
