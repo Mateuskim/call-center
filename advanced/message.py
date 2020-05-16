@@ -16,7 +16,7 @@ def createCommand(command):
     if len(data) > 1:
         json_command["id"] = data[1]
     else:
-        json_command["id"] = -1
+        json_command["id"] = ""
     return json_command
 
 
