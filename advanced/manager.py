@@ -184,7 +184,7 @@ class Manager:
 
                     # Search for a call which is online
                     new_call = self.call_queue.dequeue()
-                    while not self.call_queue.isEmpty():
+                    while new_call.status == 'ended' and (not self.call_queue.isEmpty()):
                         new_call = self.call_queue.dequeue()
 
                     if new_call.status != 'ended':
