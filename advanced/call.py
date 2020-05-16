@@ -1,6 +1,8 @@
 class Call(object):
     def __init__(self, ID):
         self.ID = ID
+
+        # status = ringing, waiting, rejected, answered, ended
         self.status = None
         self.op = None
 

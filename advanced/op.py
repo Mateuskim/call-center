@@ -5,12 +5,6 @@ class Operator(object):
         self.curCall = None
         self.status = status
 
-    def setCall(self, call_id):
-        self.status = 'busy'
-        self.curCall = call_id
-        self.curCall.setStatus('ringing')
-
-
     def setStatus(self, status):
         self.status = status
 
@@ -19,6 +13,17 @@ class Operator(object):
 
     def getStatus(self):
         return self.status
+
+    def isAvailable(self):
+        if self.status == 'available':
+            return True
+        return False
+
+
+    def setCall(self, call_id):
+        self.status = 'busy'
+        self.curCall = call_id
+        self.curCall.setStatus('ringing')
 
     def answerCall(self, op_id):
         if self.ID == op_id:
@@ -35,7 +40,3 @@ class Operator(object):
                 return True
         return False
 
-    def isAvailable(self):
-        if self.status == 'available':
-            return True
-        return False

@@ -16,6 +16,7 @@ class Calls(object):
             if call_id == c.ID:
                 return c
         return None
+
     def checkCallIgnored(self, call_id):
         for c in self.calls:
             if call_id == c.ID:
@@ -23,13 +24,9 @@ class Calls(object):
                     c.setStatus("ignored")
                     c.op.setStatus("available")
                     c.setOp(None)
-
                     return True
         return False
 
     def printaCalls(self):
         for i in self.calls:
             print(i.status)
-
-    def clearCalls(self):
-        self.calls = []
