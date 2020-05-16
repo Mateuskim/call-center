@@ -1,0 +1,1 @@
+ :screen-fps=60.000000 :live-caching=300 : screen-height=1080 : screen-width=1920 : no-video-deco : no-embedded-video
