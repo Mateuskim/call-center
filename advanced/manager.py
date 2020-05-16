@@ -21,7 +21,6 @@ class Manager:
         self.operators.addOp('B')
 
     def checkTimeOut(self, op_id, call_id, protocol):
-        time.sleep(10)
         answer_message = ''
         if self.online_calls_list.checkCallIgnored(call_id):
             answer_message += "Call " + call_id + " ignored by operator " + op_id + "\n"
@@ -31,7 +30,7 @@ class Manager:
                 # Allocate call to operator
                 answer_message += "Call " + call_id + " ringing for operator " + op.ID + "\n"
 
-                reactor.callInThread(self.checkTimeOut, op.ID, call_id, protocol)
+                reactor.callLater(10, self.checkTimeOut, op.ID, call_id, protocol)
                 self.operators.setCall(op.ID, call)
 
             protocol.sendData(answer_message)
@@ -95,7 +94,7 @@ class Manager:
                 op = self.searchOperator("available")
                 if op is not None:
                     answer_message += "Call " + call_id + " ringing for operator " + op.ID + "\n"
-                    reactor.callInThread(self.checkTimeOut, op.ID, call_id, protocol)
+                    reactor.callLater(10, self.checkTimeOut, op.ID, call_id, protocol)
 
                     # Allocate call to operator
                     self.operators.setCall(op.ID, call)
@@ -142,7 +141,7 @@ class Manager:
                     # Allocate call to operator
                     answer_message += "Call " + call.ID + " ringing for operator " + op.ID + "\n"
 
-                    reactor.callInThread(self.checkTimeOut, op.ID, call.ID, protocol)
+                    reactor.callLater(10, self.checkTimeOut, op.ID, call.ID, protocol)
                     self.operators.setCall(op.ID, call)
 
         return answer_message
@@ -190,7 +189,7 @@ class Manager:
                     if new_call.status != 'ended':
                         self.operators.setCall(op.ID, new_call)
                         answer_message += "Call " + new_call.ID + " ringing for operator " + op.ID + '\n'
-                        reactor.callInThread(self.checkTimeOut, op.ID, new_call.ID, protocol)
+                        reactor.callLater(10, self.checkTimeOut, op.ID, new_call.ID, protocol)
         return answer_message
 
     def searchOperator(self, command, op_id=None):
