@@ -40,7 +40,7 @@ class Manager:
     def execute_Command(self, json_file, protocol):
         command = getCommand(json_file)
         ID = getID(json_file)
-
+        print("Command received: " + command + " " +ID+ "\n")
         error_message = self.validateCommand(command, ID)
 
         if error_message:
