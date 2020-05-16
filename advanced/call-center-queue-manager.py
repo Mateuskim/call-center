@@ -3,7 +3,6 @@ from twisted.internet.protocol import Factory
 from twisted.internet.endpoints import TCP4ServerEndpoint
 from manager import Manager
 from myserver import MyProtocol
-import time as timer
 
 
 class MyFactory(Factory):

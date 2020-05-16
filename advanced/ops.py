@@ -52,6 +52,7 @@ class Operators(object):
                 call.setOp(op)
 
     def finishCall(self, call):
+        call.setStatus('ended')
         op = call.getOp()
         op.curCall = None
         op.setStatus('available')

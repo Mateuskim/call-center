@@ -21,7 +21,7 @@ class Manager:
         self.operators.addOp('B')
 
     def checkTimeOut(self, op_id, call_id, protocol):
-        time.sleep(15)
+
         answer_message = ''
         if self.online_calls_list.checkCallIgnored(call_id):
             answer_message += "Call " + call_id + " ignored by operator " + op_id + "\n"
@@ -31,7 +31,7 @@ class Manager:
                 # Allocate call to operator
                 answer_message += "Call " + call_id + " ringing for operator " + op.ID + "\n"
 
-                reactor.callInThread(self.checkTimeOut, op.ID, call_id, protocol)
+                reactor.callLater(10, self.checkTimeOut, op.ID, call_id, protocol)
                 self.operators.setCall(op.ID, call)
 
             protocol.sendData(answer_message)
@@ -41,7 +41,7 @@ class Manager:
     def execute_Command(self, json_file, protocol):
         command = getCommand(json_file)
         ID = getID(json_file)
-        print("Command received: " + command + " " + ID + "\n")
+        print("Command received: " + str(command) + " " + str(ID) + "\n")
         error_message = self.validateCommand(command, ID)
 
         if error_message:
@@ -95,7 +95,7 @@ class Manager:
                 op = self.searchOperator("available")
                 if op is not None:
                     answer_message += "Call " + call_id + " ringing for operator " + op.ID + "\n"
-                    reactor.callInThread(self.checkTimeOut, op.ID, call_id, protocol)
+                    reactor.callLater(10, self.checkTimeOut, op.ID, call_id, protocol)
 
                     # Allocate call to operator
                     self.operators.setCall(op.ID, call)
@@ -107,7 +107,7 @@ class Manager:
                 call.setStatus("waiting")
                 self.call_queue.enqueue(call)
         else:
-            answer_message = 'Must specify a call id ( Call <call_id>)'
+            answer_message = 'Must specify a call id ( Call <call_id>)\n'
 
         return answer_message
 
@@ -142,7 +142,7 @@ class Manager:
                     # Allocate call to operator
                     answer_message += "Call " + call.ID + " ringing for operator " + op.ID + "\n"
 
-                    reactor.callInThread(self.checkTimeOut, op.ID, call.ID, protocol)
+                    reactor.callLater(10, self.checkTimeOut, op.ID, call.ID, protocol)
                     self.operators.setCall(op.ID, call)
 
         return answer_message
@@ -174,7 +174,7 @@ class Manager:
                 else:
                     answer_message += "Call " + call.ID + " missed and operator " + op.ID + " available\n"
 
-                call.setStatus('ended')
+
                 # unlink operator and call and delete from online calls
                 self.operators.finishCall(call)
                 self.online_calls_list.endCall(call)
@@ -190,7 +190,7 @@ class Manager:
                     if new_call.status != 'ended':
                         self.operators.setCall(op.ID, new_call)
                         answer_message += "Call " + new_call.ID + " ringing for operator " + op.ID + '\n'
-                        reactor.callInThread(self.checkTimeOut, op.ID, new_call.ID, protocol)
+                        reactor.callLater(10, self.checkTimeOut, op.ID, new_call.ID, protocol)
         return answer_message
 
     def searchOperator(self, command, op_id=None):
