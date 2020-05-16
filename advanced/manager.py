@@ -172,7 +172,7 @@ class Manager:
                 if call.getStatus() == 'answered':
                     answer_message += "Call " + call.ID + " finished and operator " + op.ID + " available\n"
                 else:
-                    answer_message += "Call " + call.ID + " missed\n"
+                    answer_message += "Call " + call.ID + " missed and operator" + op.ID + "available\n"
 
                 call.setStatus('ended')
                 # unlink operator and call and delete from online calls
@@ -184,7 +184,7 @@ class Manager:
 
                     # Search for a call which is online
                     new_call = self.call_queue.dequeue()
-                    while new_call.status == 'ended' and (not self.call_queue.isEmpty()):
+                    while not self.call_queue.isEmpty():
                         new_call = self.call_queue.dequeue()
 
                     if new_call.status != 'ended':
