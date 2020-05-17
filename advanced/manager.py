@@ -170,8 +170,6 @@ class Manager:
 
                 if call.getStatus() == 'answered':
                     answer_message += "Call " + call.ID + " finished and operator " + op.ID + " available\n"
-                else:
-                    answer_message += "Call " + call.ID + " missed and operator " + op.ID + " available\n"
 
 
                 # unlink operator and call and delete from online calls
