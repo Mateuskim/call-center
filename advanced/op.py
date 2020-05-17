@@ -37,7 +37,6 @@ class Operator(object):
             if self.status == 'busy' and self.curCall.getStatus() == 'ringing':
                 self.curCall.setStatus('rejected')
                 self.status = 'available'
-                self.curCall = None
                 return True
         return False
 
