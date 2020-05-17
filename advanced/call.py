@@ -5,6 +5,8 @@ class Call(object):
         # status = ringing, waiting, rejected, answered, ended
         self.status = None
         self.op = None
+    def getID(self):
+        return self.ID
 
     def setStatus(self, status):
         self.status = status

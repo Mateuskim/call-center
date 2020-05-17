@@ -7,23 +7,23 @@ class Calls(object):
 
     def endCall(self, call):
         for c in self.calls:
-            if call.ID == c.ID:
+            if call.getID() == c.getID():
                 if call in self.calls:
                     self.calls.remove(call)
 
     def searchCall(self, call_id):
-        for c in self.calls:
-            if call_id == c.ID:
-                return c
+        for call in self.calls:
+            if call_id == call.getID():
+                return call
         return None
 
     def checkCallIgnored(self, call_id):
-        for c in self.calls:
-            if call_id == c.ID:
-                if c.getStatus() == 'ringing':
-                    c.setStatus("ignored")
-                    c.op.setStatus("available")
-                    c.setOp(None)
+        for call in self.calls:
+            if call_id == call.ID:
+                if call.getStatus() == 'ringing':
+                    call.setStatus("ignored")
+                    call.op.setStatus("available")
+                    call.setOp(None)
                     return True
         return False
 
