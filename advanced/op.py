@@ -8,11 +8,11 @@ class Operator(object):
     def setStatus(self, status):
         self.status = status
 
-    def getID(self):
-        return self.ID
-
     def getStatus(self):
         return self.status
+
+    def getID(self):
+        return self.ID
 
     def isAvailable(self):
         if self.status == 'available':
@@ -37,6 +37,7 @@ class Operator(object):
             if self.status == 'busy' and self.curCall.getStatus() == 'ringing':
                 self.curCall.setStatus('rejected')
                 self.status = 'available'
+                self.curCall = None
                 return True
         return False
 

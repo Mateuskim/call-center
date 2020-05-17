@@ -4,7 +4,6 @@ from ops import Operators
 from callqueue import CallQueue
 from message import getCommand, getID
 from twisted.internet import reactor
-import time
 
 
 class Manager:
