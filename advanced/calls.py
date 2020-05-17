@@ -19,7 +19,7 @@ class Calls(object):
 
     def checkCallIgnored(self, call_id):
         for call in self.calls:
-            if call_id == call.ID:
+            if call_id == call.getID():
                 if call.getStatus() == 'ringing':
                     call.setStatus("ignored")
                     call.op.setStatus("available")

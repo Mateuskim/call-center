@@ -7,7 +7,6 @@ class Call(object):
         self.op = None
     def getID(self):
         return self.ID
-
     def setStatus(self, status):
         self.status = status
 
