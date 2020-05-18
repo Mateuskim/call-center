@@ -36,7 +36,7 @@ class Manager:
             protocol.sendData(answer_message)
 
     def call_Check(self, op_id, call_id, protocol):
-        reactor.callLater(10, self.checkTimeOut, op_id, call_id, protocol)
+        reactor.callLater(15, self.checkTimeOut, op_id, call_id, protocol)
 
 
     # -------------------- Input from server -------------------------
