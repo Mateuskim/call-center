@@ -1,7 +1,5 @@
 from cmd import Cmd
 from message import *
-import sys
-
 from twisted.internet import reactor
 
 
