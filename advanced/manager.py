@@ -30,10 +30,14 @@ class Manager:
                 # Allocate call to operator
                 answer_message += "Call " + call_id + " ringing for operator " + op.getID() + "\n"
 
-                reactor.callLater(10, self.checkTimeOut, op.getID(), call_id, protocol)
+                self.call_Check(op.getID(), call_id, protocol)
                 self.operators.setCall(op.getID(), call)
 
             protocol.sendData(answer_message)
+
+    def call_Check(self, op_id, call_id, protocol):
+        reactor.callLater(10, self.checkTimeOut, op_id, call_id, protocol)
+
 
     # -------------------- Input from server -------------------------
 
@@ -41,7 +45,7 @@ class Manager:
         command = getCommand(json_file)
         ID = getID(json_file)
         print("Command received: " + str(command) + " " + str(ID) + "\n")
-        error_message = self.validateCommand(command, ID)
+        error_message = self.validate_Command(command, ID)
 
         if error_message:
             return error_message
@@ -55,7 +59,7 @@ class Manager:
             elif command == 'hangup':
                 return self.hangup(ID, protocol)
 
-    def validateCommand(self, command, ID):
+    def validate_Command(self, command, ID):
         message_error = None
 
         # Verify if call_id already exists
@@ -94,11 +98,12 @@ class Manager:
                 op = self.searchOperator("available")
                 if op is not None:
                     answer_message += "Call " + call_id + " ringing for operator " + op.getID() + "\n"
-                    reactor.callLater(10, self.checkTimeOut, op.getID(), call_id, protocol)
-
                     # Allocate call to operator
                     self.operators.setCall(op.getID(), call)
                     go_queue = False
+
+                    self.call_Check(op.getID(), call_id, protocol)
+                    # reactor.callLater(10, self.checkTimeOut, op.getID(), call_id, protocol)
 
             # If is going to queue
             if go_queue:
@@ -140,8 +145,8 @@ class Manager:
                 if op is not None:
                     # Allocate call to operator
                     answer_message += "Call " + call.getID() + " ringing for operator " + op.getID() + "\n"
-
-                    reactor.callLater(10, self.checkTimeOut, op.getID(), call.getID(), protocol)
+                    self.call_Check(op.getID(), call.getID(), protocol)
+                    # reactor.callLater(10, self.checkTimeOut, op.getID(), call.getID(), protocol)
                     self.operators.setCall(op.getID(), call)
 
         return answer_message
@@ -189,7 +194,9 @@ class Manager:
                     if new_call.status != 'ended':
                         self.operators.setCall(op.getID(), new_call)
                         answer_message += "Call " + new_call.getID() + " ringing for operator " + op.getID() + '\n'
-                        reactor.callLater(10, self.checkTimeOut, op.getID(), new_call.getID(), protocol)
+
+                        self.call_Check(op.getID(), new_call.getID(), protocol)
+                        # reactor.callLater(10, self.checkTimeOut, op.getID(), new_call.getID(), protocol)
         return answer_message
 
     def searchOperator(self, command, op_id=None):
